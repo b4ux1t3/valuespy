@@ -31,7 +31,7 @@ def getSumAndEntries(dictionary):
 
     return sum, numEntries
 
-def printFrequency(dictionary):
+def printFrequency(dictionary, numEntries):
     print "Number\tFrequency\tRelative Frequency"
     for i in dictionary:
         print "{0}:\t{1}\t\t{2:.2%}".format(i, dictionary[i], (dictionary[i] / numEntries))
@@ -83,38 +83,43 @@ def populateClasses(classes, values):
     for key in values:
         for classInterval in filledClasses:
             print "comparing {0} with {1} and {2}".format(key, classInterval[0], classInterval[1])
-            if int(key) > classInterval[0] and int(key) < classInterval[1]:
+            if int(key) >= classInterval[0] and int(key) <= classInterval[1]:
+                print "Adding {0} to {1}".format(values[key], filledClasses[classInterval])
                 filledClasses[classInterval] += values[key]
 
     return filledClasses
 
-f = open(sys.argv[1], "r")
+def main():
+    f = open(sys.argv[1], "r")
 
-dictionary = fillDictionary(f)
+    dictionary = fillDictionary(f)
 
-f.close()
+    f.close()
 
-sum, numEntries = getSumAndEntries(dictionary)
+    sum, numEntries = getSumAndEntries(dictionary)
 
-printFrequency(dictionary)
+    printFrequency(dictionary, numEntries)
 
-print "The mean is " + str(mean(sum, numEntries)) + ".\n"
+    print "The mean is " + str(mean(sum, numEntries)) + ".\n"
 
-print "Entries: {0}\n".format(numEntries)
+    print "Entries: {0}\n".format(numEntries)
 
-classWidth = getClassWidth(dictionary, sys.argv[2])
+    classWidth = getClassWidth(dictionary, sys.argv[2])
 
-print "Class width is {0}\n".format(classWidth)
+    print "Class width is {0}\n".format(classWidth)
 
-maximum, minimum = getMaxMin(dictionary)
+    maximum, minimum = getMaxMin(dictionary)
 
-print "maximum = {0}\nminimum = {1}\n".format(maximum, minimum)
+    print "maximum = {0}\nminimum = {1}\n".format(maximum, minimum)
 
-classIntervals = getClassIntervals(minimum, maximum, classWidth)
+    classIntervals = getClassIntervals(minimum, maximum, classWidth)
 
-#print classIntervals
+    #print classIntervals
 
-populatedClasses = populateClasses(classIntervals, dictionary)
+    populatedClasses = populateClasses(classIntervals, dictionary)
 
-for classInterval in populatedClasses:
-    print "{0} : {1}".format(classInterval, populatedClasses[classInterval])
+    for classInterval in populatedClasses:
+        print "{0} : {1}".format(classInterval, populatedClasses[classInterval])
+
+if __name__ == "__main__":
+    main()
