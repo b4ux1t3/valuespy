@@ -7,7 +7,7 @@ if len(sys.argv) != 3:
 # Takes file and pulls out all of the numerical values.
 # Counts how many of eachvalue is in the file, and 
 # returns a dictionary with the format
-#{"value":n} where n is the number of times the value 
+# {"value":n} where n is the number of times the value 
 # shows up in the file
 def fillDictionary(f):
     dictionary = {}
@@ -23,13 +23,13 @@ def fillDictionary(f):
 
 # Accepts a dictionary with integers or integer strings
 def getSumAndEntries(dictionary):
-    sum = 0
+    total = 0
     numEntries = 0
     for i in dictionary:
         numEntries += float(dictionary[i])
-        sum += int(i) * dictionary[i]
+        total += int(i) * dictionary[i]
 
-    return sum, numEntries
+    return total, numEntries
 
 def printFrequency(dictionary, numEntries):
     print "Number\tFrequency\tRelative Frequency"
@@ -37,8 +37,8 @@ def printFrequency(dictionary, numEntries):
         print "{0}:\t{1}\t\t{2:.2%}".format(i, dictionary[i], (dictionary[i] / numEntries))
     print("")
 
-def mean(sum, numEntries):
-    return float(sum) / numEntries
+def mean(total, numEntries):
+    return float(total) / numEntries
 
 def getMaxMin(dictionary):
     maximum = 0.0
@@ -82,9 +82,9 @@ def populateClasses(classes, values):
 
     for key in values:
         for classInterval in filledClasses:
-            print "comparing {0} with {1} and {2}".format(key, classInterval[0], classInterval[1])
+            #print "comparing {0} with {1} and {2}".format(key, classInterval[0], classInterval[1])
             if int(key) >= classInterval[0] and int(key) <= classInterval[1]:
-                print "Adding {0} to {1}".format(values[key], filledClasses[classInterval])
+                #print "Adding {0} to {1}".format(values[key], filledClasses[classInterval])
                 filledClasses[classInterval] += values[key]
 
     return filledClasses
@@ -96,11 +96,13 @@ def main():
 
     f.close()
 
-    sum, numEntries = getSumAndEntries(dictionary)
+    total, numEntries = getSumAndEntries(dictionary)
 
     printFrequency(dictionary, numEntries)
 
-    print "The mean is " + str(mean(sum, numEntries)) + ".\n"
+    average = mean(total, numEntries)
+
+    print "The mean is {0}\n".format(average)
 
     print "Entries: {0}\n".format(numEntries)
 
